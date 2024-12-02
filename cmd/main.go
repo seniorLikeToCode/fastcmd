@@ -40,9 +40,29 @@ func main() {
 		},
 	}
 
+	lsCmd := &cobra.Command{
+		Use:   "ls [arguments]",
+		Short: "Get the files and folder info of current directory.",
+		Run: func(cmd *cobra.Command, args []string) {
+			dir := "."
+			files, err := os.ReadDir(dir)
+			if err != nil {
+				fmt.Println("Error reading directory: ", err)
+			}
+
+			for _, file := range files {
+				fmt.Println(file)
+			}
+		},
+	}
+
+	// Add flags
+	// lsCmd.Flags().BoolP("hidden", "a", false, "Include hidden files")
+
 	// Add the subcommands to the root command
 	rootCmd.AddCommand(greetCmd)
 	rootCmd.AddCommand(pwdCmd)
+	rootCmd.AddCommand(lsCmd)
 
 	// Execute the root command
 	if err := rootCmd.Execute(); err != nil {
