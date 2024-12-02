@@ -26,8 +26,23 @@ func main() {
 		},
 	}
 
+	pwdCmd := &cobra.Command{
+		Use:   "pwd",
+		Short: "Get the path of the current directory.",
+		Long:  "Get the path of the current directory.",
+		Run: func(cmd *cobra.Command, args []string) {
+			pwd, err := os.Getwd()
+			if err != nil {
+				fmt.Println(err)
+				return
+			}
+			fmt.Println(pwd)
+		},
+	}
+
 	// Add the subcommands to the root command
 	rootCmd.AddCommand(greetCmd)
+	rootCmd.AddCommand(pwdCmd)
 
 	// Execute the root command
 	if err := rootCmd.Execute(); err != nil {
